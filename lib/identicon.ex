@@ -1,7 +1,8 @@
 defmodule Identicon do
 @moduledoc """
 The module Identicon is responsible to handle all the functions that transforms a string into a identicon.
-Identicon is the default profile picture of github. It is a symmetrical image containing 25 squares. And Each square has 50px
+Identicon is the default profile picture of github. 
+It is a symmetrical image. It's size is 250px/250px containing 25 squares, each square is 50px/50px
 """
 
     @doc """
@@ -15,6 +16,8 @@ Identicon is the default profile picture of github. It is a symmetrical image co
     |> build_grid
     |> filter_odd_squares
     |> build_pixel_map
+    |> draw_image
+    |> save_image(input)
   end
 
     @doc """
@@ -93,4 +96,28 @@ Identicon is the default profile picture of github. It is a symmetrical image co
       %Identicon.Image{image | pixel_map: pixel_map}
   end
 
+  @doc """
+    This function creates the Identicon image.
+    The argument of this function is the `image` struct.
+    The return of this function is the Identicon.
+  """
+  # Pass explicitly the `image` argument is not needed because I don't use the `image` in this function in another place else the function declaration
+  def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
+    image = :egd.create(250, 250)
+    fill = :egd.color(color)
+
+    #`start` and `stop` are the top_left and bottom_right positions of the pixel_map struct property
+    Enum.each pixel_map, fn({start, stop}) ->
+        :egd.filledRectangle(image, start, stop, fill)
+    end
+
+    :egd.render(image)
+  end
+
+   @doc """
+    This function save the Identicon image in the system
+  """
+  def save_image(image, input) do
+      File.write("#{input}.png", image)
+  end
 end
