@@ -12,6 +12,7 @@ Identicon is the default profile picture of github. It is a symmetrical image co
     input
     |> hash_input
     |> pick_color
+    |> build_grid
   end
 
     @doc """
@@ -32,5 +33,24 @@ Identicon is the default profile picture of github. It is a symmetrical image co
   def pick_color(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
     #update the struct's color property
     %Identicon.Image{image | color: {r, g, b}}
+  end
+
+  @doc """
+    This function splits the `%Identicon.Image{hex}` array into a list of smaller lists cointaining each the length of 3 and then mirrors it.
+    The return of the function will be an array of array, where each small array will have the length of 5 
+  """
+  def build_grid(%Identicon.Image{hex: hex} = image) do
+      hex
+      |> Enum.chunk(3)
+      |> Enum.map(&mirror_row/1)
+  end
+
+  @doc """
+    This function recieve the array `row` as argument and mirrors it's value
+  """
+  def mirror_row (row) do
+      [first, second | _tail] = row
+
+      row ++ [second, first]
   end
 end
