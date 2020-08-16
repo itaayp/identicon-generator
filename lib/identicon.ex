@@ -13,6 +13,7 @@ Identicon is the default profile picture of github. It is a symmetrical image co
     |> hash_input
     |> pick_color
     |> build_grid
+    |> filter_odd_squares
   end
 
     @doc """
@@ -58,4 +59,17 @@ Identicon is the default profile picture of github. It is a symmetrical image co
 
       row ++ [second, first]
   end
+
+  @doc """
+    This function filter just the even values of grid and replace it on the struct
+    It recieves the struct `image` as parameter and return the same struct with the property `grid` updated 
+  """
+  def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
+      grid = Enum.filter grid, fn({code, _index}) ->
+        rem(code, 2) == 0
+      end
+
+      %Identicon.Image{image | grid: grid}
+  end
+
 end
