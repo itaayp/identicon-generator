@@ -40,9 +40,14 @@ Identicon is the default profile picture of github. It is a symmetrical image co
     The return of the function will be an array of array, where each small array will have the length of 5 
   """
   def build_grid(%Identicon.Image{hex: hex} = image) do
-      hex
-      |> Enum.chunk(3)
-      |> Enum.map(&mirror_row/1)
+      grid = 
+        hex
+        |> Enum.chunk(3)
+        |> Enum.map(&mirror_row/1)
+        |> List.flatten
+        |> Enum.with_index
+
+      %Identicon.Image{image | grid: grid}
   end
 
   @doc """
