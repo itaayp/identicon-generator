@@ -6,7 +6,7 @@
 Identicons are the default Github profile pictures. Each picture is unique per user!
 In my application I'm creating a unique **Identicon** for each word that you pass as parameter to the `main(word)` function.
 
-## Application usage
+## Running the application
 In order to run this application, you need to install Elixir in your PC (you can install it from the official website: https://elixir-lang.org/install.html).
 If Elixir is already installed, you can download the source code of this application to your PC, open your prefered terminal, navigate to the root folder of the application and run the following command:
 ``iex -S mix``.
